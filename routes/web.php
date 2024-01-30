@@ -14,12 +14,11 @@
 use App\Http\Controllers\LinkController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('links')
-    ->name('links.')
+Route::name('links.')
     ->controller(LinkController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/create', 'store')->name('store');
+        Route::get('/{link:hash}', [LinkController::class, 'show'])->name('show');
+        Route::post('/links/create', 'store')->name('store');
     });
 
-Route::get('/{link:hash}', [LinkController::class, 'show'])->name('links.show');
