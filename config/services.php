@@ -31,4 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'url_lookup' => [
+        'key' => env('URL_LOOKUP_KEY'),
+    ],
 ];

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Link;
 use Tests\TestCase;
 
 class LinksTest extends TestCase
@@ -17,12 +18,9 @@ class LinksTest extends TestCase
             'url' => $url,
         ]);
 
-        $response->assertStatus(201)
-            ->assertJson([
-                'data' => [
-                    'url' => $url,
-                ],
-            ]);
+        $response->assertRedirect(route('links.index'))
+            ->assertSessionHas('success', 'Link created successfully.');
+
 
         $this->assertDatabaseHas('links', [
             'url' => $url,
@@ -31,26 +29,9 @@ class LinksTest extends TestCase
 
     public function test_link_can_be_retrieved(): void
     {
-        $url = 'https://www.google.com';
+        $link = Link::factory()->create();
 
-        $response = $this->post('/links/create', [
-            'url' => $url,
-        ]);
-
-        $response->assertStatus(201)
-            ->assertJson([
-                'data' => [
-                    'url' => $url,
-                ],
-            ]);
-
-        $this->assertDatabaseHas('links', [
-            'url' => $url,
-        ]);
-
-        $response = $this->get('/links/' . $response->json('data.hash'));
-
-        $response->assertStatus(302)
-            ->assertRedirect($url);
+        $this->get(route('links.show', $link))
+        ->assertRedirect($link->url);
     }
 }

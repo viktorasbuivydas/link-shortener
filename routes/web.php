@@ -18,7 +18,8 @@ Route::prefix('links')
     ->name('links.')
     ->controller(LinkController::class)
     ->group(function () {
-        Route::get('/create', 'create');
-        Route::post('/create', 'store');
-        Route::get('/{link}', 'show');
+        Route::get('/', 'index')->name('index');
+        Route::post('/create', 'store')->name('store');
     });
+
+Route::get('/{link:hash}', [LinkController::class, 'show'])->name('links.show');
