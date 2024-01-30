@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +11,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return inertia('Welcome');
-});
+use App\Http\Controllers\LinkController;
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('links')
+    ->name('links.')
+    ->controller(LinkController::class)
+    ->group(function () {
+        Route::get('/create', 'create');
+        Route::post('/create', 'store');
+        Route::get('/{link}', 'show');
+    });
