@@ -19,6 +19,5 @@ Route::name('links.')
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{link:hash}', [LinkController::class, 'show'])->name('show');
-        Route::post('/links/create', 'store')->name('store');
     });
 

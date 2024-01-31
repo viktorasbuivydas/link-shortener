@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Link;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class LinksTest extends TestCase
@@ -14,12 +15,21 @@ class LinksTest extends TestCase
     {
         $url = 'https://www.google.com';
 
-        $response = $this->post('/links/create', [
+        $response = $this->post('/api/links/create', [
             'url' => $url,
         ]);
 
-        $response->assertRedirect(route('links.index'))
-            ->assertSessionHas('success', 'Link created successfully.');
+        $link = Link::first();
+
+        $response->assertOk()
+            ->assertJson([
+                'data' => [
+                    'id' => $link->id,
+                    'url' => $link->url,
+                    'hash' => $link->hash,
+                    'short_url' => $link->short_url,
+                ],
+            ]);
 
 
         $this->assertDatabaseHas('links', [

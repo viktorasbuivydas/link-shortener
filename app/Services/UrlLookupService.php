@@ -31,12 +31,7 @@ class UrlLookupService
 
             return $request->json();
         } catch (\Exception $e) {
-            return [
-                'matches' => [
-                    'url' => $url,
-                ],
-            ];
+            throw new \Exception('An error occurred while checking the URL.');
         }
-
     }
 }

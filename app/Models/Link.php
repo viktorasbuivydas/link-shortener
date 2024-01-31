@@ -14,8 +14,17 @@ class Link extends Model
         'hash',
     ];
 
-    public function getRouteKeyName()
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    public function getRouteKeyName(): string
     {
         return 'hash';
+    }
+
+    public function getShortUrlAttribute(): string
+    {
+        return url($this->hash);
     }
 }

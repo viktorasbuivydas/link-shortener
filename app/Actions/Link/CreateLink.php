@@ -4,6 +4,7 @@ namespace App\Actions\Link;
 
 use App\Models\Link;
 use App\Services\UrlLookupService;
+use Illuminate\Support\Arr;
 
 class CreateLink
 {
@@ -16,8 +17,12 @@ class CreateLink
         }
 
         $hash = $this->generateHash();
-        $this->validateUrl($url);
+
         $response = $this->validateUrl($url);
+
+        if (Arr::exists($response, 'matches')) {
+            throw new \Exception('Invalid URL');
+        }
 
         if (count($response) === 0) {
             $link = Link::create([
