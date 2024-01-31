@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {ref} from 'vue'
 import {useForm} from "@inertiajs/vue3";
 import Loader from "../../Components/Loader.vue";
 import Success from "../../Components/Success.vue";
@@ -48,6 +48,7 @@ const shortenLink = () => {
   }
 
   loading.value = true
+  error.value = false
 
   fetch('/api/links/create', {
     method: 'POST',
@@ -72,8 +73,4 @@ const shortenLink = () => {
         loading.value = false
       })
 }
-
-const showSuccess = computed(() => {
-  return success.value
-})
 </script>
